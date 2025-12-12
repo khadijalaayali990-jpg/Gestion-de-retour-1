@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard - Gestion de Retour</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.container {
+    width: 90%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+h2 {
+    color: #6b2ddf;
+    margin-bottom: 20px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 250px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    padding: 10px;
+    gap: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #6b2ddf;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    background: #6b2ddf;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<script>
+if (localStorage.getItem("logged") !== "true") {
+    window.location.href = "login.html";
+}
+</script>
+
+<header>📊 Dashboard - Gestion de Retour</header>
+
+<nav>
+    <a href="dashboard.html">Accueil</a>
+    <a href="ajouter.html">Créer un Retour</a>
+    <a href="liste.html">Liste des Retours</a>
+</nav>
+
+<div class="container">
+    <h2>Statistiques</h2>
+    <div class="stats">
+        <div class="card">
+            <h3>Émissions aujourd'hui</h3>
+            <p id="todayCount">0</p>
+        </div>
+        <div class="card">
+            <h3>En traitement</h3>
+            <p id="processingCount">0</p>
+        </div>
+        <div class="card">
+            <h3>Acceptés</h3>
+            <p id="acceptedCount">0</p>
+        </div>
+        <div class="card">
+            <h3>Refusés</h3>
+            <p id="refusedCount">0</p>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateStats() {
+    let retours = JSON.parse(localStorage.getItem("retours") || "[]");
+    let today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+
+    let todayCount = retours.filter(r => r.date === today).length;
+    let processingCount = retours.filter(r => r.status === "En attente" || r.status === "Traité").length;
+    let acceptedCount = retours.filter(r => r.status === "Accepté").length;
+    let refusedCount = retours.filter(r => r.status === "Refusé").length;
+
+    document.getElementById("todayCount").innerText = todayCount;
+    document.getElementById("processingCount").innerText = processingCount;
+    document.getElementById("acceptedCount").innerText = acceptedCount;
+    document.getElementById("refusedCount").innerText = refusedCount;
+}
+
+// تحديث الإحصائيات عند تحميل الصفحة
+updateStats();
+</script> src="script.js"></script>
+
+</body>
+</html>

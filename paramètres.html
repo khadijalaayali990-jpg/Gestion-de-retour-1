@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Paramètres</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.container{width:90%;max-width:600px;margin:20px auto;}
+input, select{width:100%;padding:8px;margin:6px 0;border-radius:6px;border:1px solid #ccc;}
+button{padding:8px 15px;margin:5px;border:none;border-radius:6px;background:#a179f7;color:white;cursor:pointer;}
+button:hover{background:#6b2ddf;}
+h2{color:#6b2ddf;}
+.section{border:1px solid #ccc;padding:10px;margin:15px 0;border-radius:8px;}
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="dashboard.html">Accueil</a>
+    <a href="ajouter.html">Créer un Retour</a>
+    <a href="liste.html">Liste des Retours</a>
+    <a href="parametres.html">Paramètres</a>
+</nav>
+
+<div class="container">
+<h2>Paramètres</h2>
+
+<div class="section">
+<h3>Produits</h3>
+<input type="text" id="newProduct" placeholder="Nouveau produit">
+<button onclick="ajouterProduit()">Ajouter produit</button>
+<ul id="productsList"></ul>
+</div>
+
+<div class="section">
+<h3>Utilisateurs</h3>
+<input type="email" id="newUserEmail" placeholder="Email">
+<input type="password" id="newUserPassword" placeholder="Mot de passe">
+<select id="newUserRole">
+  <option value="admin">Admin</option>
+  <option value="user">User</option>
+</select>
+<button onclick="ajouterUser()">Ajouter utilisateur</button>
+<ul id="usersList"></ul>
+</div>
+
+<div class="section">
+<h3>Raisons de retour</h3>
+<input type="text" id="returnReason" placeholder="Nouvelle raison">
+<button onclick="ajouterReason()">Ajouter raison</button>
+<ul id="reasonsList"></ul>
+</div>
+
+<div class="section">
+<h3>Statuts</h3>
+<input type="text" id="newStatus" placeholder="Nouveau statut">
+<button onclick="ajouterStatus()">Ajouter statut</button>
+<ul id="statusListUl"></ul>
+</div>
+
+<script src="script.js"></script>
+<script>
+// Affichage initial des listes
+function afficherParametres(){
+    const products = JSON.parse(localStorage.getItem("products")||"[]");
+    const users = JSON.parse(localStorage.getItem("users")||"[]");
+    const reasons = JSON.parse(localStorage.getItem("reasons")||"[]");
+    const statusList = JSON.parse(localStorage.getItem("statusList")||"[]");
+
+    document.getElementById("productsList").innerHTML = products.map(p=>`<li>${p}</li>`).join("");
+    document.getElementById("usersList").innerHTML = users.map(u=>`<li>${u.email} (${u.role})</li>`).join("");
+    document.getElementById("reasonsList").innerHTML = reasons.map(r=>`<li>${r}</li>`).join("");
+    document.getElementById("statusListUl").innerHTML = statusList.map(s=>`<li>${s}</li>`).join("");
+}
+
+afficherParametres();
+
+// Met à jour affichage après ajout
+window.ajouterProduit = function(){
+    let products = JSON.parse(localStorage.getItem("products")||"[]");
+    const p = document.getElementById("newProduct").value;
+    if(p){ products.push(p); localStorage.setItem("products",JSON.stringify(products)); alert("Produit ajouté"); document.getElementById("newProduct").value=""; afficherParametres();}
+}
+window.ajouterUser = function(){
+    let users = JSON.parse(localStorage.getItem("users")||"[]");
+    const email = document.getElementById("newUserEmail").value;
+    const pwd = document.getElementById("newUserPassword").value;
+    const role = document.getElementById("newUserRole").value;
+    if(email && pwd){ users.push({email,password:pwd,role}); localStorage.setItem("users",JSON.stringify(users)); alert("Utilisateur ajouté"); document.getElementById("newUserEmail").value=""; document.getElementById("newUserPassword").value=""; afficherParametres();}
+}
+window.ajouterReason = function(){
+    let reasons = JSON.parse(localStorage.getItem("reasons")||"[]");
+    const r = document.getElementById("returnReason").value;
+    if(r){ reasons.push(r); localStorage.setItem("reasons",JSON.stringify(reasons)); alert("Raison ajoutée"); document.getElementById("returnReason").value=""; afficherParametres();}
+}
+window.ajouterStatus = function(){
+    let statusList = JSON.parse(localStorage.getItem("statusList")||"[]");
+    const s = document.getElementById("newStatus").value;
+    if(s){ statusList.push(s); localStorage.setItem("statusList",JSON.stringify(statusList)); alert("Statut ajouté"); document.getElementById("newStatus").value=""; afficherParametres();}
+}
+</script>
+
+</body>
+</html>

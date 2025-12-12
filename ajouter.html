@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Créer un Retour - Gestion de Retour</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* Container central */
+.container {
+    width: 90%;
+    max-width: 500px;
+    margin: 30px auto;
+}
+
+h2 {
+    text-align: center;
+    color: #6b2ddf;
+}
+
+/* Card */
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Form inputs */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* Button Envoyer */
+button {
+    background: #a179f7;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #6b2ddf;
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    padding: 10px;
+    gap: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #6b2ddf;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    background: #6b2ddf;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<script>
+if (localStorage.getItem("logged") !== "true") {
+    window.location.href = "login.html";
+}
+</script>
+
+<header>📦 Gestion de Retour</header>
+
+<nav>
+    <a href="dashboard.html">Accueil</a>
+    <a href="ajouter.html">Créer un Retour</a>
+    <a href="liste.html">Liste des Retours</a>
+</nav>
+
+<div class="container">
+    <div class="card">
+        <h2>Créer un Retour</h2>
+        <input type="text" id="orderID" placeholder="Numéro de commande (Order ID)">
+        <input type="text" id="client" placeholder="Nom du client">
+        <input type="text" id="product" placeholder="Produit à retourner">
+        <select id="reason">
+            <option value="Défectueux">Défectueux</option>
+            <option value="Non conforme">Non conforme</option>
+            <option value="Autre">Autre</option>
+        </select>
+        <select id="condition">
+            <option value="Neuf">Neuf</option>
+            <option value="Ouvert">Ouvert</option>
+            <option value="Endommagé">Endommagé</option>
+        </select>
+        <select id="action">
+            <option value="Remboursement">Remboursement</option>
+            <option value="Échange">Échange</option>
+        </select>
+        <button onclick="envoyerRetour()">Envoyer la demande</button>
+    </div>
+</div>
+
+<script>
+function envoyerRetour() {
+    let orderID = document.getElementById("orderID").value;
+    let client = document.getElementById("client").value;
+    let product = document.getElementById("product").value;
+    let reason = document.getElementById("reason").value;
+    let condition = document.getElementById("condition").value;
+    let action = document.getElementById("action").value;
+    let date = new Date().toLocaleDateString();
+    
+    if(orderID === "" || client === "" || product === "") {
+        alert("Veuillez remplir tous les champs !");
+        return;
+    }
+
+    let retours = JSON.parse(localStorage.getItem("retours") || "[]");
+
+    retours.push({
+        orderID,
+        client,
+        product,
+        reason,
+        condition,
+        action,
+        status: "En traitement", // الحالة الأولية
+        date
+    });
+
+    localStorage.setItem("retours", JSON.stringify(retours));
+
+    alert("Retour envoyé avec succès !");
+
+    // Réinitialiser le formulaire
+    document.getElementById("orderID").value = "";
+    document.getElementById("client").value = "";
+    document.getElementById("product").value = "";
+    document.getElementById("reason").value = "Défectueux";
+    document.getElementById("condition").value = "Neuf";
+    document.getElementById("action").value = "Remboursement";
+}
+</script> src="script.js"></script>
+
+</body>
+</html>

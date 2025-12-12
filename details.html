@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Détails du Retour - Gestion de Retour</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.container {
+    width: 90%;
+    max-width: 500px;
+    margin: 30px auto;
+}
+
+h2 {
+    text-align: center;
+    color: #6b2ddf;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+p, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    background: #a179f7;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    background: #6b2ddf;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    padding: 10px;
+    gap: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #6b2ddf;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    background: #6b2ddf;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<script>
+if (localStorage.getItem("logged") !== "true") {
+    window.location.href = "login.html";
+}
+</script>
+
+<header>📦 Gestion de Retour</header>
+
+<nav>
+    <a href="dashboard.html">Accueil</a>
+    <a href="ajouter.html">Créer un Retour</a>
+    <a href="liste.html">Liste des Retours</a>
+</nav>
+
+<div class="container">
+    <div class="card" id="detailsCard">
+        <h2>Détails du Retour</h2>
+        <p id="errorMsg" style="color:red; font-weight:bold;"></p>
+
+        <label>Numéro de commande:</label>
+        <p id="orderID"></p>
+
+        <label>Client:</label>
+        <p id="client"></p>
+
+        <label>Produit:</label>
+        <p id="product"></p>
+
+        <label>Raison:</label>
+        <p id="reason"></p>
+
+        <label>Condition:</label>
+        <p id="condition"></p>
+
+        <label>Action souhaitée:</label>
+        <p id="action"></p>
+
+        <label>Date:</label>
+        <p id="date"></p>
+
+        <label>Statut actuel:</label>
+        <p id="status"></p>
+
+        <label>Notes du responsable:</label>
+        <textarea id="notes" placeholder="Ajouter une note..."></textarea>
+
+        <button onclick="changerStatus('Accepté')">Accepter</button>
+        <button onclick="changerStatus('Refusé')">Refuser</button>
+        <button onclick="changerStatus('Traité')">Terminer le traitement</button>
+    </div>
+</div>
+
+<script>
+// جلب index من URL
+const params = new URLSearchParams(window.location.search);
+const retourIndex = parseInt(params.get("index"), 10);
+let retours = JSON.parse(localStorage.getItem("retours") || "[]");
+
+// التحقق من index وصلاحية البيانات
+if (retours.length === 0) {
+    document.getElementById("detailsCard").style.display = "none";
+    document.getElementById("errorMsg").innerText = "Aucun retour disponible. Merci de créer un retour d'abord.";
+} else if (isNaN(retourIndex) || !retours[retourIndex]) {
+    document.getElementById("detailsCard").style.display = "none";
+    document.getElementById("errorMsg").innerText = "Retour introuvable. Veuillez accéder depuis la liste des retours.";
+} else {
+    const retour = retours[retourIndex];
+
+    function afficherDetails() {
+        document.getElementById("orderID").innerText = retour.orderID;
+        document.getElementById("client").innerText = retour.client;
+        document.getElementById("product").innerText = retour.product;
+        document.getElementById("reason").innerText = retour.reason;
+        document.getElementById("condition").innerText = retour.condition;
+        document.getElementById("action").innerText = retour.action;
+        document.getElementById("date").innerText = retour.date;
+        document.getElementById("status").innerText = retour.status || "En attente";
+        document.getElementById("notes").value = retour.notes || "";
+    }
+
+    function changerStatus(nouveauStatus) {
+        retour.status = nouveauStatus;
+        retour.notes = document.getElementById("notes").value;
+        localStorage.setItem("retours", JSON.stringify(retours));
+        document.getElementById("status").innerText = nouveauStatus;
+        alert("Statut mis à jour !");
+    }
+
+    afficherDetails();
+}
+</script>src="script.js"></script>
+
+</body>
+</html>

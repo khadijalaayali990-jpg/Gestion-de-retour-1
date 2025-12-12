@@ -1,0 +1,121 @@
+/* ===== Global ===== */
+<script src="script.js"></script>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f2eafc; /* Lavender light */
+    color: #333;
+}
+
+/* ===== Header ===== */
+header {
+    background: #a179f7; /* Violet / Mouv */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* ===== Navbar ===== */
+nav {
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    padding: 10px;
+    gap: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin: 10px auto;
+    width: 90%;
+}
+
+nav a {
+    text-decoration: none;
+    color: #6b2ddf; /* dark purple */
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    background: #6b2ddf;
+    color: white;
+}
+
+/* ===== Container ===== */
+.container {
+    width: 90%;
+    margin: auto;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* ===== Card ===== */
+.card {
+    flex: 1 1 300px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ===== Buttons ===== */
+button {
+    background: #a179f7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #6b2ddf;
+}
+
+/* ===== Inputs ===== */
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+/* ===== Table ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background: #a179f7;
+    color: white;
+}
+
+/* ===== Footer ===== */
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #a179f7;
+    color: white;
+    margin-top: 30px;
+    border-radius: 8px;
+}
